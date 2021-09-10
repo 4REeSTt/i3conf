@@ -41,7 +41,13 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec terminator
+
+# start Qt
+bindsym $mod+q exec ~/Qt/Tools/QtCreator/bin/qtcreator
+# start Gimp
+bindsym $mod+g exec gimp 
+
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -55,10 +61,10 @@ bindsym $mod+d exec rofi -show run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -67,10 +73,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -79,7 +85,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+semicolon split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -108,8 +114,7 @@ bindsym $mod+a focus parent
 hide_edge_borders both
 for_window [class="^.*"] border pixel 2
 
-# Gaps
-gaps inner 5
+# Gaps gaps inner 5
 gaps outer 5
 smart_gaps on
 
@@ -119,8 +124,8 @@ set $ws1 "1: "
 set $ws2 "2: "
 set $ws3 "3"
 set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
+set $ws5 "5: Qt"
+set $ws6 "6: Gmp"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -152,12 +157,15 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # bind programs to specific workspaces
 
-assign [class="Termite"] $ws1
-for_window [class=Termite] focus
+assign [class="Terminator"] $ws1
+for_window [class=terminator] focus
 
-assign [class="firefox"] $ws2
+assign [class="Firefox"] $ws2
 for_window [class=firefox] focus
  
+assign [class="Gimp"] $ws6
+for_window [class=gimp] focus
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -173,10 +181,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -198,10 +206,27 @@ bindsym $mod+r mode "resize"
 #	position top
 #        status_command i3status -c /home/linus/.config/i3status/i3status.conf
 #}
+#bar {
+#	position top
+#        status_command i3blocks -c /home/linus/.config/i3blocks/i3blocks.conf
+#}
 bar {
+	font pango:mono 10
+	status_command i3blocks
 	position top
-        status_command i3blocks -c /home/linus/.config/i3blocks/i3blocks.conf
+	mode dock
+	modifier None
+	#i3bar_command i3bar --transparency #282828
+	colors{
+		background #282828
+		separator #ebdbb2
+		#<collorclass> <border> <background> <text>
+		focused_workspace  #83a598 #458588 #ebdbb2
+		inactive_workspace #505945 #282828 #928374
+		urgent_workspace   #cc241d #900000 #fb4934
+	}
 }
+
 #set wallpaper
 exec_always --no-startup-id nitrogen --random --set-zoom-fill  
 
@@ -213,3 +238,4 @@ bindsym $mod+b exec "/usr/bin/firefox"
 
 #compositor
 exec_always  --no-startup-id picom -f 
+
