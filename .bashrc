@@ -8,16 +8,30 @@
 # umask 022
 
 # You may uncomment the following lines if you want `ls' to be colorized:
-# export LS_OPTIONS='--color=auto'
-# eval "$(dircolors)"
-# alias ls='ls $LS_OPTIONS'
-# alias ll='ls $LS_OPTIONS -l'
-# alias l='ls $LS_OPTIONS -lA'
-#
-# Some more alias to avoid making mistakes:
-# alias rm='rm -i'
-# alias cp='cp -i'
-# alias mv='mv -i'
+export PATH=/home/linus/.local/bin/:$PATH 
+
+#proxmox vars for terraform
+export PM_USER=root@pam
+export PM_PASS=oB7kQLootQTIkEab0y7U
+export TF_VAR_cipassword=guSwLwMCp1
+export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+export ANSIBLE_CONFIG=/home/linus/work/ansible/ansible.cfg
+
+ export LS_OPTIONS='--color=auto'
+ export PATH=/home/linus/work/istio-1.13.4/bin:$PATH
+ eval "$(dircolors)"
+ alias ls='ls $LS_OPTIONS'
+ alias ll='ls $LS_OPTIONS -l'
+ alias l='ls $LS_OPTIONS -lA'
+ alias kd='kubectl --kubeconfig ~/.kube/config_dev'
+ alias kp='kubectl --kubeconfig ~/.kube/config_prod'
+
+ #Some more alias to avoid making mistakes:
+ alias grep='grep --colour=always'
+ alias rm='rm -i'
+ alias cp='cp -i'
+ alias mv='mv -i'
 
 ################################################################################
 ##  FUNCTIONS                                                                 ##
@@ -277,6 +291,7 @@ bash_prompt() {
 	local PROMT_USER=$"$TEXT_FORMAT_1 \u "
 	local PROMT_HOST=$"$TEXT_FORMAT_2 \h "
 	local PROMT_PWD=$"$TEXT_FORMAT_3 \${NEW_PWD} "
+	local GIT_BRANCH=$"$TEXT_FORMAT_2\$(__git_ps1 ' (%s)')"
 	local PROMT_INPUT=$"$PROMT_FORMAT "
 
 
@@ -301,9 +316,11 @@ bash_prompt() {
 	local SEPARATOR_FORMAT_1
 	local SEPARATOR_FORMAT_2
 	local SEPARATOR_FORMAT_3
+	local SEPARATOR_FORMAT_4
 	format_font SEPARATOR_FORMAT_1 $TSFC1 $TSBG1
 	format_font SEPARATOR_FORMAT_2 $TSFC2 $TSBG2
 	format_font SEPARATOR_FORMAT_3 $TSFC3 $TSBG3
+	format_font SEPARATOR_FORMAT_4 $TSFC3 $TSBG1
 	
 
 	# GENERATE SEPARATORS WITH FANCY TRIANGLE
@@ -311,6 +328,7 @@ bash_prompt() {
 	local SEPARATOR_1=$SEPARATOR_FORMAT_1$TRIANGLE
 	local SEPARATOR_2=$SEPARATOR_FORMAT_2$TRIANGLE
 	local SEPARATOR_3=$SEPARATOR_FORMAT_3$TRIANGLE
+	local SEPARATOR_4=$SEPARATOR_FORMAT_4$TRIANGLE
 
 
 
@@ -333,7 +351,10 @@ bash_prompt() {
 	## BASH PROMT                                                             ##
 	## Generate promt and remove format from the rest                         ##
 	############################################################################
-	PS1="$TITLEBAR\n${PROMT_USER}${SEPARATOR_1}${PROMT_HOST}${SEPARATOR_2}${PROMT_PWD}${SEPARATOR_3}${PROMT_INPUT}"
+	. ~/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+#export PS1='\w$(__git_ps1 " (%s)")\$ '
+	PS1="$TITLEBAR\n${PROMT_USER}${SEPARATOR_1}${PROMT_HOST}${SEPARATOR_2}${PROMT_PWD}${SEPARATOR_4}${GIT_BRANCH}${SEPARATOR_2}${SEPARATOR_3}${PROMT_INPUT}"
 
 	
 
@@ -361,6 +382,7 @@ PROMPT_COMMAND=bash_prompt_command
 bash_prompt
 unset bash_prompt
 
-
-
+#. ~/git-prompt.sh
+#export GIT_PS1_SHOWDIRTYSTATE=1
+#export PS1='\[\033[36m\] \u@\h \w$(__git_ps1 "\[\033[32m\](%s)") \[\033[34m\][\D{%H:%M}]: \[\033[37m\]'
 ### EOF ###
