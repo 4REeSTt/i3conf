@@ -11,12 +11,6 @@
 export PATH=/home/linus/.local/bin/:$PATH 
 
 #proxmox vars for terraform
-export PM_USER=root@pam
-export PM_PASS=oB7kQLootQTIkEab0y7U
-export TF_VAR_cipassword=guSwLwMCp1
-export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-export ANSIBLE_CONFIG=/home/linus/work/ansible/ansible.cfg
 
  export LS_OPTIONS='--color=auto'
  export PATH=/home/linus/work/istio-1.13.4/bin:$PATH
