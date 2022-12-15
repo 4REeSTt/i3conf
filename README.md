@@ -15,5 +15,6 @@
     
     Dependencies on i3 config(that i3 hot keys are using)
     -----------------------------------
-    $ sudo apt-get install terminator rufi Qt
+    $ sudo pacman -S terminator rufi Qt
+    
     
